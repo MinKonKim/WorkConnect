@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../_constants/constants';
 import api from '@/api';
 import { GetSearchWorkspaceUsersProps } from '@/types/workspaceUser';
@@ -6,6 +6,27 @@ import { getChannelsOptions } from '../_utils/getQueryOptions';
 
 export const useGetChannels = (workspaceId: number) => {
   return useQuery(getChannelsOptions(workspaceId));
+};
+
+export const useInvalidateChannels = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    invalidate: (workspaceId: number) =>
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.CHANNELS(workspaceId)
+      })
+  };
+};
+
+export const useSetQueryDataChannels = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    setQueryData: (workspaceId: number, callback: unknown) => {
+      return queryClient.setQueryData(QUERY_KEYS.CHANNELS(workspaceId), callback);
+    }
+  };
 };
 
 type UseGetSearchWorkspaceUsersProps = GetSearchWorkspaceUsersProps & {

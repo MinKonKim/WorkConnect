@@ -1,6 +1,6 @@
 import api from '@/api';
 import type { GetChatMessagesProps } from '@/types/chat';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getChannelInfoOptions, getUsersInChannelOptions } from '../_utils/getQueryOptions';
 import { QUERY_KEYS } from '../_constants/constants';
 
@@ -13,6 +13,15 @@ export const useGetChatMessages = ({ channel_id }: GetChatMessagesProps) => {
   });
 };
 
+export const useInvalidateChatMessages = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    invalidate: (channelId: number) =>
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.CHAT_MESSAGES(Number(channelId)) })
+  };
+};
+
 export const useGetLatestNotice = ({ id }: { id: number }) => {
   return useQuery({
     queryKey: QUERY_KEYS.LATEST_NOTICE(id),
@@ -22,8 +31,25 @@ export const useGetLatestNotice = ({ id }: { id: number }) => {
   });
 };
 
+export const useInvalidateLatestNotice = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    invalidate: (channelId: number) => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.LATEST_NOTICE(channelId) })
+  };
+};
+
 export const useGetUsersInChannel = (channelId: number) => {
   return useQuery(getUsersInChannelOptions(channelId));
+};
+
+export const useInvalidateUsersInChannel = () => {
+  const queryClient = useQueryClient();
+
+  return {
+    invalidate: (channelId: number) =>
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.USERS_IN_CHANNEL(Number(channelId)) })
+  };
 };
 
 export const useGetChannelInfo = ({ id }: { id: number }) => {
