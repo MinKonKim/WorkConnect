@@ -8,50 +8,23 @@ const nextConfig = {
       }
     ]
   },
-  webpack: (config) => {
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  },
+  webpack(config) {
     config.module.rules.push({
-      test: /\.svg$/i,
+      test: /\.svg$/,
       use: [
         {
           loader: '@svgr/webpack',
           options: {
-            svgoConfig: {
-              plugins: [
-                {
-                  name: 'preset-default',
-                  params: {
-                    overrides: {
-                      removeViewBox: false,
-                      addAttributesToSVGElement: {
-                        params: {
-                          attributes: [{ preserveAspectRatio: 'xMidYMid meet' }]
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
-            }
+            icon: 24,
+            typescript: true,
+            removeDimensions: true
           }
         }
       ]
     });
-
-    config.module.rules.push({
-      test: /\.lottie$/,
-      use: [
-        {
-          loader: 'lottie-loader'
-        }
-      ]
-    });
-
-    config.module.rules.push({
-      test: /\.json$/,
-      type: 'javascript/auto',
-      use: 'json-loader'
-    });
-
     return config;
   }
 };
