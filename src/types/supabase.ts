@@ -128,6 +128,21 @@ export type Database = {
           },
         ]
       }
+      scheduler_db: {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+        }
+        Relationships: []
+      }
       todo: {
         Row: {
           end_date: string
