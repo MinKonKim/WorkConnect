@@ -9,7 +9,7 @@ import ChatVideo from '../../../../_components/ChatVideo';
 import useLongPress from '@/hooks/useLongPress';
 import ChatFile from './ChatFile';
 import ChatText from './ChatText';
-import ChatNotice from '../ChatNotice';
+import ChatNotice from './ChatNotice';
 
 type HandleContextMenuEventProps = React.MouseEvent<HTMLDivElement | HTMLButtonElement | HTMLVideoElement>;
 
@@ -51,7 +51,7 @@ const getStyles = (type: string, isMe: boolean) => {
   return clsx(baseStyles.margin, baseStyles.select, additionalStyles[type]);
 };
 
-export const ChatMessage = memo(({ content, type, isMe, id, noticeUrl, openContextMenu }: ChatMessageProps) => {
+const Chat = memo(({ content, type, isMe, id, noticeUrl, openContextMenu }: ChatMessageProps) => {
   const className = useMemo(() => getStyles(type, isMe), [type, isMe]);
 
   const handleContextMenu = useCallback(
@@ -88,3 +88,5 @@ export const ChatMessage = memo(({ content, type, isMe, id, noticeUrl, openConte
 
   return <Component {...componentProps[type]} className={className} />;
 });
+
+export default Chat;

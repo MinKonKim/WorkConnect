@@ -1,7 +1,7 @@
 import { type ComponentProps, memo, useState } from 'react';
 import brokenFileImage from '/public/images/common/broken-file.png';
-import ChatImage from '../ChatImage';
 import clsx from 'clsx';
+import { ChatImage } from '.';
 
 const ERROR_IMAGE = brokenFileImage.src;
 

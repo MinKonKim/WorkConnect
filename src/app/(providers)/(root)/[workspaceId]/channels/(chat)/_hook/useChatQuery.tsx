@@ -3,6 +3,7 @@ import type { GetChatMessagesProps } from '@/types/chat';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getChannelInfoOptions, getUsersInChannelOptions } from '../_utils/getQueryOptions';
 import { QUERY_KEYS } from '../_constants/constants';
+import { GetUsersInChannelResponse } from '@/types/channel';
 
 export const useGetChatMessages = ({ channel_id }: GetChatMessagesProps) => {
   return useQuery({
@@ -50,6 +51,12 @@ export const useInvalidateUsersInChannel = () => {
     invalidate: (channelId: number) =>
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.USERS_IN_CHANNEL(Number(channelId)) })
   };
+};
+
+export const useGetQueryDataUsersInChannel = (channelId: number) => {
+  const queryClient = useQueryClient();
+
+  return queryClient.getQueryData<GetUsersInChannelResponse>(QUERY_KEYS.USERS_IN_CHANNEL(Number(channelId)));
 };
 
 export const useGetChannelInfo = ({ id }: { id: number }) => {

@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import Chats from '../Chats';
-import { MessagesWrapper } from '../MessagesContainer';
+import { Chats } from '../Chats';
 import { useGetChatMessages, useGetUsersInChannel } from '../../../../_hook/useChatQuery';
 import useGetParamsChannelId from '../../../../_hook/useGetParamsChannelId';
 import useChatSubscription from '../../_hooks/useChatSubscription';
+import MessagesWrapper from './MessageWrapper';
 
 const Messages = () => {
   const channelId = useGetParamsChannelId();

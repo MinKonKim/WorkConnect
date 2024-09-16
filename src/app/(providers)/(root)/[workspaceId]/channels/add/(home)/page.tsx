@@ -1,7 +1,6 @@
 'use client';
 
 import useWorkspaceId from '@/hooks/useWorkspaceId';
-import Search from '../_components/Search';
 import { useSearchParams } from 'next/navigation';
 import { useSearchUsers } from '../_provider/SearchUsersProvider';
 import useCreateChannel from '../_hooks/useCreateChannel';
@@ -10,6 +9,7 @@ import { isEmpty } from '@/utils/isEmpty';
 import { CHANNEL_TYPE } from '@/constants/channel';
 import { fetchExistingChannelId } from '../_utils/fetchExistingChannelId';
 import AddChannelLayout from '../_components/AddChannelLayout';
+import { SearchInput, SearchResults, SelectedUsers } from '../_components';
 
 const AddChatPage = () => {
   const workspaceId = useWorkspaceId();
@@ -47,7 +47,9 @@ const AddChatPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <AddChannelLayout title="대화상대 선택">
-        <Search />
+        <SearchInput />
+        <SelectedUsers />
+        <SearchResults />
       </AddChannelLayout>
     </form>
   );
