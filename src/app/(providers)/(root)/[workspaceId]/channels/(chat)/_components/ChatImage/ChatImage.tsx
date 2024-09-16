@@ -8,8 +8,6 @@ const ERROR_IMAGE = brokenFileImage.src;
 type ChatImageProps = Omit<StrictNextImagePropsType, 'alt'> & { alt?: string };
 
 const ChatImage = ({ src = '', className, onError, alt = '', ...props }: ChatImageProps) => {
-  if (!src) return null;
-
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     if (e.currentTarget.src !== ERROR_IMAGE) {
       e.currentTarget.src = ERROR_IMAGE;
