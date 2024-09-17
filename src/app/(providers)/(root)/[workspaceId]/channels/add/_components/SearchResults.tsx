@@ -10,10 +10,10 @@ import {
 } from './SearchMemberCard';
 import { CheckFillIcon, UnCheckIcon } from '@/icons';
 import { useSearch } from '../_hooks/useSearch';
-import { useSearchUsers } from '../_provider/SearchUsersProvider';
+import useChatSearchUsersStore from '@/store/chatSearchUserStore';
 
 const SearchResults = () => {
-  const { handleSelectUser, selectedUsers } = useSearchUsers();
+  const { handleSelectUser, selectedUsers } = useChatSearchUsersStore();
   const { searchUsers } = useSearch();
 
   if (isEmpty(searchUsers)) {

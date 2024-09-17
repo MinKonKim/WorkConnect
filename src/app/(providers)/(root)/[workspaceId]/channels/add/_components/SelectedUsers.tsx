@@ -2,11 +2,11 @@
 
 import { XIcon } from '@/icons';
 import { memo } from 'react';
-import { useSearchUsers } from '../_provider/SearchUsersProvider';
 import { SearchCardContent, SearchCardThumbnail, SearchCardWrapper } from './SearchMemberCard';
+import useChatSearchUsersStore from '@/store/chatSearchUserStore';
 
 const SelectedUsers = () => {
-  const { handleRemoveUser, selectedUsers } = useSearchUsers();
+  const { handleRemoveUser, selectedUsers } = useChatSearchUsersStore();
 
   return (
     <>

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useSearchUsers } from '../_provider/SearchUsersProvider';
 import useCreateChannel from '../_hooks/useCreateChannel';
 import { useSearchParams } from 'next/navigation';
 import type { ChannelType } from '@/types/channel';
@@ -15,15 +14,18 @@ import { useMutationUploadThumbnail } from '../../_hooks/useChannelMutation';
 import VideoChatAvatar from '@/components/VideoChatAvatar';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
+import useChatSearchUsersStore from '@/store/chatSearchUserStore';
+import { useWorkspaceUserId } from '@/hooks/useWorkspaceUserId';
 
 const MAX_FILE_SIZE = 3;
 
 const GroupSettingPage = () => {
   const searchParams = useSearchParams();
+  const workspaceUserId = useWorkspaceUserId();
   const type = searchParams.get('type') as ChannelType['type'];
   const ref = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const { getSelectedUserIds } = useSearchUsers();
+  const { getSelectedUserIds } = useChatSearchUsersStore();
   const { handleCreateChannelAndUsers } = useCreateChannel();
   const { openSnackBar } = useSnackBar();
   const [thumbnail, setThumbnail] = useState<string>('');
@@ -47,7 +49,7 @@ const GroupSettingPage = () => {
       return;
     }
 
-    const userIds = getSelectedUserIds();
+    const userIds = getSelectedUserIds(workspaceUserId);
 
     handleCreateChannelAndUsers({ channelName: ref.current.value, userIds, type, thumbnail });
   };
