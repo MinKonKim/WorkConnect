@@ -6,7 +6,6 @@ import useWorkspaceId from '@/hooks/useWorkspaceId';
 import { useWorkspaceUserId } from '@/hooks/useWorkspaceUserId';
 import { useParams } from 'next/navigation';
 import { isEmpty } from '@/utils/isEmpty';
-import { useContextMenu } from '../../_provider/ContextMenuProvider';
 import { formatDate } from '@/utils/time';
 import { useMemo } from 'react';
 import { getLastActiveAtForChannel } from '../../_utils/getLastActiveAtForChannel';
@@ -15,6 +14,7 @@ import OtherProfile from './OtherProfile';
 import ReadBadge from './ReadBadge';
 import Time from './Time';
 import { Chat } from '../Chat';
+import useChatContextMenuStore from '@/store/chatContextMenuStore';
 
 type ChatMessagesProps = {
   data: GetChatMessageType[] & { channel_id?: string };
@@ -25,7 +25,7 @@ const Chats = ({ data = [], usersInChannel = {} }: ChatMessagesProps) => {
   const { id: channelId } = useParams();
   const workspaceId = useWorkspaceId();
   const workspaceUserId = useWorkspaceUserId();
-  const { openContextMenu } = useContextMenu();
+  const { openMenu } = useChatContextMenuStore();
   const lastActiveAt = useMemo(() => getLastActiveAtForChannel({ usersInChannel, workspaceUserId }), [usersInChannel]);
 
   const noticeUrl = `/${workspaceId}/channels/${channelId}/notice`;
@@ -55,7 +55,7 @@ const Chats = ({ data = [], usersInChannel = {} }: ChatMessagesProps) => {
               id={chat.id}
               isMe={isMe}
               noticeUrl={noticeUrl}
-              openContextMenu={openContextMenu}
+              openMenu={openMenu}
             />
           </div>
         );

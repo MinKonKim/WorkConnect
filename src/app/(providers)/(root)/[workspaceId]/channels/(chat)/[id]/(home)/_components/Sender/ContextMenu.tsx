@@ -10,25 +10,25 @@ import { ComponentPropsWithoutRef } from 'react';
 import { useContextMenuActions } from '../../_hooks/useContextMenuActions';
 
 const ContextMenu = () => {
-  const { contextMenuState, closeContextMenu, copyText, deleteChat, handleNotice } = useContextMenuActions();
+  const { menu, closeMenu, copyText, deleteChat, handleNotice } = useContextMenuActions();
 
-  if (!contextMenuState.isOpen) return null;
+  if (!menu.isOpen) return null;
 
   return (
     <>
       <div
-        style={{ top: contextMenuState.position.y }}
+        style={{ top: menu.position.y }}
         className={clsx(
           'fixed rounded-[6px] bg-bgBackground1 shadow-[0px_1px_8px_0px_rgba(0,0,0,0.15)] z-50 w-[154px] flex p-4 gap-[20px] flex-col',
-          contextMenuState.isMe ? 'right-[16px]' : 'left-[56px]',
-          contextMenuState.position.isAtTop ? '' : 'translate-y-[-100%]'
+          menu.isMe ? 'right-[16px]' : 'left-[56px]',
+          menu.position.isAtTop ? '' : 'translate-y-[-100%]'
         )}
       >
-        {contextMenuState.type === CHAT_TYPE.text && <MenuButton title="복사" onClick={copyText} icon={<CopyIcon />} />}
+        {menu.type === CHAT_TYPE.text && <MenuButton title="복사" onClick={copyText} icon={<CopyIcon />} />}
         <MenuButton title="공지" onClick={handleNotice} icon={<HashIcon />} />
-        {contextMenuState.isMe && <MenuButton title="삭제" onClick={deleteChat} icon={<TrashIcon />} />}
+        {menu.isMe && <MenuButton title="삭제" onClick={deleteChat} icon={<TrashIcon />} />}
       </div>
-      <div className="fixed top-0 left-0 w-full h-full z-40" onClick={closeContextMenu} />
+      <div className="fixed top-0 left-0 w-full h-full z-40" onClick={closeMenu} />
     </>
   );
 };
