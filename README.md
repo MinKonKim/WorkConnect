@@ -2,7 +2,6 @@
 
 ![워크커넥트큰이미지](https://github.com/user-attachments/assets/5b0f9915-986c-4abd-8a63-038d868c9d44)
 
-
 <h2>📝 프로젝트 소개</h2>
 
 협업을 위해 여러 서비스를 사용해야 하는 현대인들을 위한 통합 워크스페이스 서비스입니다.
@@ -40,11 +39,9 @@
 
 ![WebAppReferenceArchitecture](https://github.com/user-attachments/assets/06e4afee-dd1f-4bbf-8640-2402455bf8fa)
 
-
 ## 📌 ERD
 
 ![workconnect schema](https://github.com/user-attachments/assets/96c12cb2-9d2f-4498-a7df-0cd2b697fd32)
-
 
 ## 🛠️ Stacks
 
@@ -95,6 +92,15 @@ git clone https://github.com/B03-Killer/WorkConnect.git
 cd WorkConnect
 ```
 
+### version
+
+- node: v20.13.1
+- npm: v10.5.2
+
+```bash
+nvm use
+```
+
 ### Frontend
 
 ```bash
@@ -106,20 +112,6 @@ npm run dev
 ```bash
 npm run build-storybook
 npm run storybook
-```
-
-### .env.local
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL
-NEXT_PUBLIC_SUPABASE_ANON_KEY
-NEXT_PUBLIC_API_URL
-
-LIVEKIT_API_KEY
-LIVEKIT_API_SECRET
-NEXT_PUBLIC_LIVEKIT_URL
-
-SENTRY_AUTH_TOKEN
 ```
 
 ### supabase 타입 업데이트
