@@ -23,3 +23,6 @@ export { default as HashIcon } from '@/icons/Hash.svg';
 export { default as ImageIcon } from '@/icons/Image.svg';
 export { default as PaperclipIcon } from '@/icons/Paperclip.svg';
 export { default as ChevronRightIcon } from '@/icons/ChevronRight.svg';
+export { default as PlusIcon } from '@/icons/Plus.svg';
+export { default as SmileIcon } from '@/icons/Smile.svg';
+export { default as SendIcon } from '@/icons/Send.svg';

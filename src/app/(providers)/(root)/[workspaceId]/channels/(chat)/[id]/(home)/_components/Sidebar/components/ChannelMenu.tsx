@@ -1,40 +1,39 @@
 'use client';
 
-import useWorkspaceId from '@/hooks/useWorkspaceId';
 import { HashIcon, ImageIcon, PaperclipIcon } from '@/icons';
-import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@/icons';
 import Typography from '@/components/Typography';
 
-const ChannelMenu = () => {
-  const workspaceId = useWorkspaceId();
-  const { id } = useParams();
+type ChannelMenuProps = {
+  pathname: string;
+};
 
+const ChannelMenu = ({ pathname }: ChannelMenuProps) => {
   const menuItems = useMemo(() => {
     return [
       {
-        href: `/${workspaceId}/channels/${id}/media`,
+        href: `${pathname}/media`,
         icon: ImageIcon,
         label: '사진·동영상',
         svgType: 'stroke'
       },
       {
-        href: `/${workspaceId}/channels/${id}/file`,
+        href: `${pathname}/file`,
         icon: PaperclipIcon,
         label: '파일',
         svgType: 'stroke'
       },
       {
-        href: `/${workspaceId}/channels/${id}/notice`,
+        href: `${pathname}/notice`,
         icon: HashIcon,
         label: '공지',
         svgType: 'fill'
       }
     ];
-  }, [workspaceId, id]);
+  }, [pathname]);
 
   return (
     <ul className="flex flex-col gap-8 mt-8 pt-8 border-t border-grey50">

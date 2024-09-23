@@ -1,13 +1,15 @@
+'use client';
+
 import { StrictPropsWithChildren } from '@/types/common';
 import { ComponentPropsWithoutRef, useRef } from 'react';
 import Typography from '@/components/Typography';
 import FileInput from '@/components/FileInput';
 
-type FileButtonProps = {
+export type FileButtonProps = {
   title: string;
   name: string;
   accept: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & Omit<ComponentPropsWithoutRef<'button'>, 'onChange'>;
 
 const FileButton = ({
@@ -15,7 +17,7 @@ const FileButton = ({
   title,
   name,
   accept,
-  onChange,
+  handleChange,
   ...props
 }: StrictPropsWithChildren<FileButtonProps>) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -26,7 +28,7 @@ const FileButton = ({
 
   return (
     <>
-      <FileInput name={name} accept={accept} ref={ref} onChange={onChange} />
+      <FileInput name={name} accept={accept} ref={ref} handleChange={handleChange} />
       <button
         type="button"
         className="flex flex-col items-center justify-center gap-[6px] px-[5px]"

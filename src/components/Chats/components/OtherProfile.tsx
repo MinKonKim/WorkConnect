@@ -3,16 +3,16 @@ import Typography from '@/components/Typography';
 import Link from 'next/link';
 import { memo } from 'react';
 
-type OtherProfileProps = {
+export interface OtherProfileProps {
   profileImage: string | null;
   name: string;
-  profileUrl: string;
-};
+  href: string;
+}
 
-const OtherProfile = memo(({ profileImage, name, profileUrl }: OtherProfileProps) => {
+const OtherProfile = memo(({ profileImage, name, href }: OtherProfileProps) => {
   return (
     <div className="inline-flex items-center gap-2 w-full">
-      <Link href={profileUrl}>
+      <Link href={href}>
         <Avatar src={profileImage ?? undefined} size="32px" />
       </Link>
       <Typography variant="Title16px" color="grey900">
