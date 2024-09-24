@@ -7,34 +7,36 @@ import { FieldValues, useForm } from 'react-hook-form';
 const ProfileEditPage = () => {
   const params = useParams();
   const workspaceUserId = params.targetWorkspaceUserId as string;
-  const { workspaceUser, isPending, isError, updateWorkspaceUser } = useWorkspaceUser(workspaceUserId);
-  const profileImage = workspaceUser && workspaceUser.profile_image;
-  const workspaceName = workspaceUser && workspaceUser.name;
-  const workspaceEmail = workspaceUser && workspaceUser.email;
-  const workspacePhone = workspaceUser && workspaceUser.phone;
-  const workspaceState = workspaceUser && workspaceUser.state;
-  const workspaceIsOpen = workspaceUser && workspaceUser.is_open;
+  const { workspaceUser, updateWorkspaceUser } = useWorkspaceUser(workspaceUserId);
 
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      name: workspaceUser?.name,
+      email: workspaceUser?.email,
+      phone: workspaceUser?.phone
+    }
+  });
 
   const onSubmit = (value: FieldValues) => {
     console.log(value);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="border-2 border-black">
+      <div className="flex flex-col border-2 border-black">
         <label htmlFor="name">이름</label>
         <input {...register('name')} type="text" />
       </div>
-      <div className="border-2 border-black">
+      <div className="flex flex-col border-2 border-black">
         <label>활동 상태</label>
         <input />
       </div>
-      <div className="border-2 border-black">
+      <div className="flex flex-col border-2 border-black">
         <label>이메일</label>
         <input {...register('email')} type="email" />
       </div>
-      <div className="border-2 border-black">
+      <div className="flex flex-col border-2 border-black">
         <label>전화번호</label>
         <input {...register('phone')} type="text" />
       </div>
