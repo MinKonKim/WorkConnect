@@ -1,14 +1,28 @@
+'use client';
 import { AvatarIcon, CameraIcon } from '@/icons';
+import { Tregister } from '@/types/profileInputForm';
 import { cva } from 'class-variance-authority';
 import Image from 'next/image';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, forwardRef, useState } from 'react';
 
 interface ProfileImgButtonProps {
-  imageURL: string | ArrayBuffer | undefined | null;
-  handleProfileImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  register: Tregister;
 }
 
-const ProfileImgButton = ({ imageURL, handleProfileImageChange }: ProfileImgButtonProps) => {
+const ProfileImgButton = forwardRef<HTMLInputElement, ProfileImgButtonProps>(({ register }, ref) => {
+  const [imageURL, setImageURL] = useState<string | ArrayBuffer | null>();
+  const handleProfileImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = () => {
+      setImageURL(reader.result);
+    };
+  };
+
   return (
     <div className={AvatarVariants({ isImageExist: imageURL ? true : false })}>
       {imageURL ? (
@@ -30,10 +44,17 @@ const ProfileImgButton = ({ imageURL, handleProfileImageChange }: ProfileImgButt
           </div>
         </label>
       </button>
-      <input id="profile" type="file" accept="image/*" onChange={handleProfileImageChange} className="hidden" />
+      <input
+        id="profile"
+        type="file"
+        accept="image/*"
+        {...register('image')}
+        onChange={handleProfileImageChange}
+        className="hidden"
+      />
     </div>
   );
-};
+});
 
 export default ProfileImgButton;
 
