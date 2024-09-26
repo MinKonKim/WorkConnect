@@ -1,23 +1,27 @@
 'use client';
 
-import Label from '@/components/Label';
+import BottomSheetModal from '@/components/BottomSheetModal';
+import EditTextField from '@/components/EditTextField';
+import TextFieldButton from '@/components/TextFieldButton';
 import useWorkspaceUser from '@/hooks/useWorkspaceUser';
-import PencilIcon from '@/icons/Pencil.svg';
 import { useSnackBar } from '@/providers/SnackBarContext';
+import useBottomsheetModalBackDropStore from '@/store/bottomsheetModalBackDropStore';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
 import Header from '../_components/Header';
+import InputBottomSheet from './_components/InputBottomSheets/InputBottomSheet';
 import ProfileImgButton from './_components/ProfileImgButton';
 
 const ProfileEditPage = () => {
   const params = useParams();
   const router = useRouter();
+  const [activityState, setActivityState] = useState<string | undefined>('');
+  const handleOpen = useBottomsheetModalBackDropStore((state) => state.handleOpen);
   const workspaceUserId = params.targetWorkspaceUserId as string;
   const { openSnackBar } = useSnackBar();
   const { workspaceUser, updateWorkspaceUser } = useWorkspaceUser(workspaceUserId);
-  const [imageURL, setImageURL] = useState<string | ArrayBuffer | null>();
-  const { register, handleSubmit, watch, formState } = useForm({
+  const { control, register, handleSubmit, watch, formState } = useForm({
     mode: 'onChange',
     defaultValues: {
       name: workspaceUser?.name,
@@ -27,10 +31,15 @@ const ProfileEditPage = () => {
     }
   });
 
+  const handleStateChange = (value: string | undefined) => {
+    setActivityState(value);
+    handleOpen();
+  };
+
   const onSubmit = async ({ name, image, email, phone }: FieldValues) => {
+    console.log(activityState);
     if (image) {
       const reader = new FileReader();
-      console.log(image[0]);
       reader.readAsDataURL(image[0]);
 
       reader.onload = () => {
@@ -39,44 +48,47 @@ const ProfileEditPage = () => {
     }
   };
 
+  console.log(activityState);
   return (
     <div>
       <Header title="내 프로필 편집" type="edit" />
       <main>
         <div className="flex flex-col w-full items-center px-5 pb-[36px]">
-          <ProfileImgButton imageURL={imageURL} register={register} />
+          <ProfileImgButton register={register} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="relative flex flex-col gap-2 w-full">
-              <Label className="pl-1">
-                이름
-                <span className="text-error"> (필수)</span>
-              </Label>
-
-              <div className="flex flex-row items-center w-full gap-1 px-1 hover:bg-[#F5F6FF] rounded-md">
-                <input
-                  id="name"
-                  type="text"
-                  className="flex-1 pl-2 py-[12px] w-[calc(100% - 9px)] outline-none bg-transparent h-[45px]"
-                  {...register('name')}
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => <EditTextField label="이름" {...field} />}
+              />
+              <div className="lg:border-grey50 lg:border-b-[1px]" />
+              <div>
+                <BottomSheetModal isUp={true}>
+                  <InputBottomSheet value={activityState} handleFn={handleStateChange} />
+                </BottomSheetModal>
+                <TextFieldButton
+                  LabelColor="grey400"
+                  label="활동상태"
+                  value={activityState}
+                  onClick={() => handleStateChange(activityState)}
                 />
-                <button className="w-5 h-5 mx-[2px] transform cursor-pointer">
-                  <PencilIcon />
-                </button>
+                <div className="lg:border-grey50 lg:border-b-[1px]" />
               </div>
+              <Controller
+                name="email"
+                control={control}
+                render={({ field }) => <EditTextField label="이메일" {...field} />}
+              />
+              <div className="lg:border-grey50 lg:border-b-[1px]" />
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => <EditTextField label="전화번호" {...field} />}
+              />
+              <div className="lg:border-grey50 lg:border-b-[1px]" />
+              <button>수정 완료하기</button>
             </div>
-            <div className="flex flex-col border-2 border-black">
-              <label>활동 상태</label>
-              <input />
-            </div>
-            <div className="flex flex-col border-2 border-black">
-              <label>이메일</label>
-              <input {...register('email')} type="email" />
-            </div>
-            <div className="flex flex-col border-2 border-black">
-              <label>전화번호</label>
-              <input {...register('phone')} type="text" />
-            </div>
-            <button>수정 완료하기</button>
           </form>
         </div>
       </main>
