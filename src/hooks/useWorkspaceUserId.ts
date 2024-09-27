@@ -1,3 +1,5 @@
+'use client';
+
 import useUserStore from '@/store/userStore';
 
 export const useWorkspaceUserId = () => {

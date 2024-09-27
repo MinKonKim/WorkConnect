@@ -1,8 +1,13 @@
+import { BottomBar, PageLayout } from '@/components/Layout/PageLayout';
 import { StrictPropsWithChildren } from '@/types/common';
-import { ContextMenuProvider } from './_provider/ContextMenuProvider';
 
-const ChatDetailHomeLayout = ({ children }: StrictPropsWithChildren) => {
-  return <ContextMenuProvider>{children}</ContextMenuProvider>;
+const DetailLayout = ({ children }: StrictPropsWithChildren) => {
+  return (
+    <PageLayout>
+      {children}
+      <BottomBar className="hidden lg:block" />
+    </PageLayout>
+  );
 };
 
-export default ChatDetailHomeLayout;
+export default DetailLayout;

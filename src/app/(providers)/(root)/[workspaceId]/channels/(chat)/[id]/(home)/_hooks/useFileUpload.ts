@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 type StorageBucketNameKeys = keyof typeof STORAGE_BUCKET_NAME;
 const MAX_FILE_SIZE = 3;
 
-type UploadFileProps = {
+export type UploadFileProps = {
   blob: Blob;
   name: StorageBucketNameKeys;
 };

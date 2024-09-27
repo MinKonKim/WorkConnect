@@ -1,14 +1,10 @@
+import { type FileButtonProps } from '@/app/(providers)/(root)/[workspaceId]/channels/(chat)/[id]/(home)/_components/MessageSender/FileButton';
 import { forwardRef } from 'react';
 
-const FileInput = forwardRef<
-  HTMLInputElement,
-  {
-    name: string;
-    accept: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  }
->(({ name, accept, onChange }, ref) => {
-  return <input type="file" ref={ref} name={name} className="hidden" onChange={onChange} accept={accept} />;
+type FileInputProps = {} & Pick<FileButtonProps, 'name' | 'accept' | 'handleChange'>;
+
+const FileInput = forwardRef<HTMLInputElement, FileInputProps>(({ name, accept, handleChange }, ref) => {
+  return <input type="file" ref={ref} name={name} className="hidden" onChange={handleChange} accept={accept} />;
 });
 
 export default FileInput;
