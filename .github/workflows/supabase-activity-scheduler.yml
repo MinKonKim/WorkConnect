@@ -11,4 +11,5 @@ jobs:
 
     steps:
       - name: Send HTTP Request
-        run: curl -H "X-GitHub-Action: true" https://work-connect-plum.vercel.app/api/etc/activity-scheduler
+        run: |
+          curl -H "X-GitHub-Action: true" https://work-connect-plum.vercel.app/api/etc/activity-scheduler
