@@ -92,7 +92,7 @@ const GroupSettingPage = () => {
             채팅방 생성
           </Button>
         </div>
-        <FileInput name="thumbnail" accept="image/*" ref={fileRef} onChange={onChange} />
+        <FileInput name="thumbnail" accept="image/*" ref={fileRef} handleChange={onChange} />
       </AddChannelLayout>
     </form>
   );
