@@ -9,7 +9,7 @@ export interface EditTextFieldProps {
   id?: string;
   label?: string;
   labelClassName?: string;
-  value?: string;
+  value?: string | null;
   onChange: (value: string) => void;
   type?: string;
   labelColor?: 'primary200Main' | 'grey400' | 'grey700Black' | 'error' | undefined;
@@ -99,6 +99,7 @@ const EditTextField = forwardRef<HTMLInputElement, EditTextFieldProps>(
       'border-transparent': state !== 'focus'
     });
 
+    if (value === null || value === undefined) value = '';
     return (
       <div className="relative flex flex-col gap-2 w-full" {...props}>
         {label && (
@@ -126,7 +127,7 @@ const EditTextField = forwardRef<HTMLInputElement, EditTextFieldProps>(
             onBlur={handleBlur}
             onChange={handleInputChange}
           />
-          <button className="w-5 h-5 mx-[2px] transform cursor-pointer">{renderIcon()}</button>
+          <div className="w-5 h-5 mx-[2px] transform cursor-pointer">{renderIcon()}</div>
         </div>
       </div>
     );

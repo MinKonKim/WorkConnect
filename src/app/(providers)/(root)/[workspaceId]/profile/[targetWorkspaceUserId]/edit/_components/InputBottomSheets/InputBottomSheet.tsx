@@ -13,7 +13,6 @@ const InputBottomSheet = ({ value, handleFn }: InputBottomSheetsProps) => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newInputValue = e.target.value;
     setInputValue(newInputValue);
-    console.log(handleFn);
   };
 
   return (
