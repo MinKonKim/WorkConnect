@@ -1,11 +1,27 @@
+import api from '@/api';
 import { BottomBar, PageMain, PCHeader, PCWrapper } from '@/components/Layout/PageLayout';
 import { StrictPropsWithChildren } from '@/types/common';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 interface ProfileParallelLayoutProps {
   home: React.ReactNode;
+  params: {
+    targetWorkspaceUserId: string;
+  };
 }
 
-const ProfileParallelLayout = ({ children, home }: StrictPropsWithChildren<ProfileParallelLayoutProps>) => {
+const ProfileParallelLayout = async ({
+  children,
+  home,
+  params
+}: StrictPropsWithChildren<ProfileParallelLayoutProps>) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['workspaceUser', params.targetWorkspaceUserId],
+    queryFn: () => api.workspaceUser.getWorkspaceUser(params.targetWorkspaceUserId)
+  });
+
   return (
     <>
       <PCWrapper isHome>
@@ -20,7 +36,7 @@ const ProfileParallelLayout = ({ children, home }: StrictPropsWithChildren<Profi
               className="w-full h-full fixed lg:h-auto lg:min-w-[375px] lg:max-w-[375px] lg:w-[375px] lg:top-[84px] lg:bottom-0 lg:right-0 
             lg:border-[#E5E7EB] lg:border-l-[1px] overflow-y-scroll scroll-container z-50"
             >
-              {children}
+              <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>
             </div>
           </div>
         </PageMain>

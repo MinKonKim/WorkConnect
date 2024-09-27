@@ -8,7 +8,7 @@ type InputProps = {
 
 const IsOpenInput = ({ isOpen, handleIsOpenClick }: InputProps) => {
   return (
-    <div className="flex flex-col gap-[8px]">
+    <div className="flex flex-col gap-[8px] mb-[30px]">
       <Typography variant="Body14px" color="grey400">
         내 정보
       </Typography>

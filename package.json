@@ -47,6 +47,7 @@
     "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "react-intersection-observer": "^9.13.0",
     "react-lottie": "^1.2.4",
     "react-lottie-player": "^2.1.0",
