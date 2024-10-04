@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
-import { useGetLatestNotice, useGetUsersInChannel } from '../../../_hook/useChatQuery';
-import { useChatHandlers } from './useChatHandlers';
-import { handleSubscribeToChat, handleSubscribeToNotice } from '../_utils/subscribe';
 import { GetUsersInChannelResponse } from '@/types/channel';
 import { isEmpty } from '@/utils/isEmpty';
+import { useChatHandlers } from './useChatHandlers';
+import { handleSubscribeToChat, handleSubscribeToNotice } from '../_utils/subscribe';
 
 type UseChatSubscriptionProps = {
   channelId: number;
@@ -38,8 +37,7 @@ const useChatSubscription = ({ channelId, usersInChannel, isPending, latestNotic
     if (!channelId) return;
 
     const channel = handleSubscribeToNotice({
-      handler: handleUpdates({ latestNoticeId, channelId }),
-      id: channelId
+      handler: handleUpdates({ latestNoticeId, channelId })
     }).subscribe();
 
     return () => {

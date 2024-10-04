@@ -1,48 +1,66 @@
 'use client';
 
+import { ChatType } from '@/types/chat';
+import { MouseEvent } from 'react';
 import { create } from 'zustand';
 
 const TOP_BAR_HEIGHT = 84;
 
-export type OpenMenuProps = { targetElement: DOMRect } & Omit<MenuType, 'isOpen' | 'position'>;
-
-export type MenuType = {
+export type MenuTypes = {
   isOpen: boolean;
   id: number | null;
-  type: string | null;
+  type: ChatType['type'] | null;
   position: { y: number; isAtTop: boolean };
-  text: string | null;
+  content: string | null;
   isMe: boolean;
 };
 
-export type MenuStoreType = {
+export type MenuStoreTypes = {
   openMenu: (props: OpenMenuProps) => void;
   closeMenu: () => void;
-  menu: MenuType;
+  menu: MenuTypes;
 };
 
-const defaultMenu: MenuType = {
+export type OpenMenuProps = {
+  event: MouseEvent<HTMLElement>;
+} & Pick<MenuTypes, 'type' | 'content' | 'id' | 'isMe'>;
+
+const defaultMenu: MenuTypes = {
   isOpen: false,
   id: null,
   type: null,
   position: { y: 0, isAtTop: false },
-  text: null,
+  content: null,
   isMe: false
 };
 
-const useChatContextMenuStore = create<MenuStoreType>((set) => ({
-  menu: defaultMenu,
-  openMenu: ({ targetElement: { bottom, top }, ...props }: OpenMenuProps) => {
-    const adjustedBottom = bottom - TOP_BAR_HEIGHT;
-    const adjustedTop = top - TOP_BAR_HEIGHT;
-    const isAtTop = window.innerHeight - adjustedBottom >= 250;
-    const positionY = isAtTop ? adjustedBottom + 10 : adjustedTop - 10;
+const calcMenuPosition = (target: HTMLElement, topBarHeight: number) => {
+  const { bottom, top } = target.closest('[data-target="message"]')?.getBoundingClientRect() ?? {
+    bottom: 0,
+    top: 0
+  };
 
-    set((state) => ({
+  const adjustedBottom = bottom - topBarHeight;
+  const adjustedTop = top - topBarHeight;
+  const isAtTop = window.innerHeight - adjustedBottom >= 250;
+  const positionY = isAtTop ? adjustedBottom + 10 : adjustedTop - 10;
+
+  return { y: positionY, isAtTop };
+};
+
+const useChatContextMenuStore = create<MenuStoreTypes>((set) => ({
+  menu: defaultMenu,
+  openMenu: ({ event, ...props }: OpenMenuProps) => {
+    event.preventDefault?.();
+
+    const target = event.target as HTMLElement;
+    const position = calcMenuPosition(target, TOP_BAR_HEIGHT);
+
+    set(({ menu }) => ({
       menu: {
-        ...state.menu,
+        ...menu,
         isOpen: true,
-        position: { y: positionY, isAtTop },
+        position,
         ...props
       }
     }));

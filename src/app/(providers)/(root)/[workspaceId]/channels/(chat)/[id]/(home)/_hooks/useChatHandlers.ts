@@ -1,45 +1,40 @@
-import { GetChatMessageType } from '@/types/chat';
+import { GetChannelMessageTypes } from '@/types/channel';
 import { RealtimeSubscribeProps } from '@/utils/createRealtimeChannel';
 import { useCallback, useState } from 'react';
-import { useMutationUpdateChannelActiveAt } from '../../../_hook/useChatMutation';
+
+import { useInvalidateLatestNotice } from '@/hooks/queries/useChat';
 import {
-  useInvalidateChatMessages,
-  useInvalidateLatestNotice,
-  useInvalidateUsersInChannel
-} from '../../../_hook/useChatQuery';
+  useInvalidateChannelMessages,
+  useInvalidateChannelUsers,
+  useMutationUpdateChannelLastActive
+} from '@/hooks/queries/useChannel';
 
-type RealtimePayloadMessagesType = GetChatMessageType & {
-  channel_id: string;
-};
-
-type RealtimeChatPayloadType = {
-  new: RealtimePayloadMessagesType;
-  old: RealtimePayloadMessagesType;
+type PayloadMessagesTypes = GetChannelMessageTypes & { channel_id: string };
+export type UpdatePayloadTypes = {
+  new: PayloadMessagesTypes;
+  old: PayloadMessagesTypes;
   eventType: RealtimeSubscribeProps['eventHandlers'][0]['event'];
 };
-
-type HandleNoticeUpdatesProps = { latestNoticeId: number | undefined; channelId: number };
-
-type HandleChatUpdatesProps = {
-  channelId: number;
-};
+type HandleNoticeUpdatesTypes = { latestNoticeId: number | undefined; channelId: number };
+type HandleChatUpdatesTypes = { channelId: number };
+type HandleUserInfoUpdatesTypes = { channelId: number };
 
 export const useChatHandlers = () => {
-  const { invalidate: invalidateUsersInChannel } = useInvalidateUsersInChannel();
-  const { invalidate: invalidateChatMessages } = useInvalidateChatMessages();
-  const { invalidate: invalidateLatestNotice } = useInvalidateLatestNotice();
-  const { mutateAsync: updateChannelActiveAt } = useMutationUpdateChannelActiveAt();
-  const [payloadMessages, setPayloadMessages] = useState<RealtimePayloadMessagesType[]>([]);
+  const invalidateChannelUsers = useInvalidateChannelUsers();
+  const invalidateChatMessages = useInvalidateChannelMessages();
+  const invalidateLatestNotice = useInvalidateLatestNotice();
+  const { mutateAsync: updateChannelActiveAt } = useMutationUpdateChannelLastActive();
+  const [payloadMessages, setPayloadMessages] = useState<PayloadMessagesTypes[]>([]);
 
-  const handleMessagesUpdates = useCallback(({ channelId }: HandleChatUpdatesProps) => {
-    return async (payload: RealtimeChatPayloadType) => {
+  const handleMessagesUpdates = useCallback(({ channelId }: HandleChatUpdatesTypes) => {
+    return async (payload: UpdatePayloadTypes) => {
       const { eventType, new: newPayload } = payload;
 
       switch (eventType) {
         case 'INSERT':
           setPayloadMessages((prev) => [...prev, newPayload]);
           await updateChannelActiveAt(channelId);
-          await invalidateUsersInChannel(channelId);
+          await invalidateChannelUsers(channelId);
           break;
         case 'DELETE':
           invalidateChatMessages(channelId);
@@ -49,8 +44,8 @@ export const useChatHandlers = () => {
     };
   }, []);
 
-  const handleNoticeUpdates = useCallback(({ latestNoticeId, channelId }: HandleNoticeUpdatesProps) => {
-    return (payload: RealtimeChatPayloadType) => {
+  const handleNoticeUpdates = useCallback(({ latestNoticeId, channelId }: HandleNoticeUpdatesTypes) => {
+    return (payload: UpdatePayloadTypes) => {
       const { eventType, new: newPayload, old } = payload;
 
       const isNoticeDeleted = eventType === 'DELETE' && latestNoticeId === old.id;
@@ -62,9 +57,9 @@ export const useChatHandlers = () => {
     };
   }, []);
 
-  const handleUserInfoUpdates = useCallback(({ channelId }: HandleChatUpdatesProps) => {
+  const handleUserInfoUpdates = useCallback(({ channelId }: HandleUserInfoUpdatesTypes) => {
     return () => {
-      invalidateUsersInChannel(channelId);
+      invalidateChannelUsers(channelId);
     };
   }, []);
 

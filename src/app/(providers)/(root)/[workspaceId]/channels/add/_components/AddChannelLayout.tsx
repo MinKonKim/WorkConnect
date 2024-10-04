@@ -5,7 +5,7 @@ import { TopBar } from '@/components/Layout/TopBar';
 import { Check1Icon, XIcon } from '@/icons';
 import { StrictPropsWithChildren } from '@/types/common';
 import { useRouter } from 'next/navigation';
-import { ChannelList, ChannelListTopBar } from '../../_components';
+import { ChannelList, ChannelListTopBar } from '../../_components/ChannelList';
 
 type AddChannelLayoutProps = {
   title: string;

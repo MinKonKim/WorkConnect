@@ -1,4 +1,4 @@
-import ChannelList from '../_components/ChannelList';
+import { ChannelList } from '../_components/ChannelList';
 
 const ChannelHomePage = () => {
   return <ChannelList />;

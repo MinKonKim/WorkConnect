@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useGetSearchWorkspaceUsers } from '../../_hooks/useChannelQuery';
 import useWorkspaceId from '@/hooks/useWorkspaceId';
+import { useGetSearchWorkspaceUsers } from '@/hooks/queries/useWorkspaceUser';
 
 export const useSearch = () => {
   const workspaceId = useWorkspaceId();

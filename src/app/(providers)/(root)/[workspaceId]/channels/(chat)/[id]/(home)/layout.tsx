@@ -1,13 +1,15 @@
-import { BottomBar, PageLayout } from '@/components/Layout/PageLayout';
+import { BottomBar, PageLayout, PageMain } from '@/components/Layout/PageLayout';
 import { StrictPropsWithChildren } from '@/types/common';
+import AsideSection from './_feature/AsideSection';
 
-const DetailLayout = ({ children }: StrictPropsWithChildren) => {
+const ChannelDetailLayout = ({ children }: StrictPropsWithChildren) => {
   return (
     <PageLayout>
-      {children}
+      <AsideSection />
+      <PageMain className="h-dvh flex flex-col">{children}</PageMain>
       <BottomBar className="hidden lg:block" />
     </PageLayout>
   );
 };
 
-export default DetailLayout;
+export default ChannelDetailLayout;

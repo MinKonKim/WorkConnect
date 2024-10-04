@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { updateChatChannels } from '../_utils/updateChatChannels';
 import { ChatSubscribePayloadProps } from '@/types/chat';
 import { GetChannelsResponse } from '@/types/channel';
-import { useInvalidateChannels, useSetQueryDataChannels } from './useChannelQuery';
+import { useInvalidateChannels, useSetQueryDataChannels } from '@/hooks/queries/useChannel';
 
 type WorkspaceInfoProps = {
   workspaceId: number;
@@ -10,7 +10,7 @@ type WorkspaceInfoProps = {
 
 export const useChannelHandlers = () => {
   const { setQueryData: setQueryDataChannels } = useSetQueryDataChannels();
-  const { invalidate: invalidateChannels } = useInvalidateChannels();
+  const invalidateChannels = useInvalidateChannels();
 
   const handleChatInserts = useCallback(({ workspaceId }: WorkspaceInfoProps) => {
     return ({ new: payload }: { new: ChatSubscribePayloadProps }) => {

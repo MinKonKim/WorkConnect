@@ -3,7 +3,7 @@
 import { BottomBar, PageMain, PCHeader, PCWrapper } from '@/components/Layout/PageLayout';
 import { TopBar } from '@/components/Layout/TopBar';
 import { StrictPropsWithChildren } from '@/types/common';
-import { MessageChatButton, VideoChatButton } from '../_components/TopBarButtons';
+import { VideoChatButton, MessageChatButton } from '../_components/ChannelList';
 
 const ChannelHomeLayout = ({ children }: StrictPropsWithChildren) => {
   return (

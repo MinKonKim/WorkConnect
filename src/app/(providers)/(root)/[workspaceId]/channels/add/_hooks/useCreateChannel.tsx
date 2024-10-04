@@ -5,7 +5,7 @@ import { ChannelType } from '@/types/channel';
 import useWorkspaceId from '@/hooks/useWorkspaceId';
 import { CHANNEL_TYPE } from '@/constants/channel';
 import { useState } from 'react';
-import { useMutationCreateChannel, useMutationCreateChannelUsers } from '../../_hooks/useChannelMutation';
+import { useMutationCreateChannel, useMutationCreateChannelUsers } from '@/hooks/queries/useChannel';
 
 type CreateChannelAndUsersParams = {
   channelName?: string;
@@ -19,9 +19,7 @@ const useCreateChannel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { mutateAsync: createChannelUsers } = useMutationCreateChannelUsers();
-  const { mutateAsync: createChannel } = useMutationCreateChannel({
-    workspace_id: workspaceId
-  });
+  const { mutateAsync: createChannel } = useMutationCreateChannel(workspaceId);
 
   const handleCreateChannelAndUsers = async ({
     channelName,

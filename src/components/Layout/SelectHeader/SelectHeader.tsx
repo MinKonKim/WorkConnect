@@ -3,7 +3,7 @@
 import {
   MessageChatButton,
   VideoChatButton
-} from '@/app/(providers)/(root)/[workspaceId]/channels/_components/TopBarButtons';
+} from '@/app/(providers)/(root)/[workspaceId]/channels/_components/ChannelList/TopBarButtons';
 import ToDoAddButton from '@/app/(providers)/(root)/[workspaceId]/to-do-list/_components/ToDoAddButton';
 import TopSelect from '@/components/Layout/TopSelect';
 import NotFoundError from '@/components/NotFoundError';

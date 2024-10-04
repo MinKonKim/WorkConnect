@@ -1,13 +1,25 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useGetChatMessages, useGetUsersInChannel } from '../../../_hook/useChatQuery';
-import useChatSubscription from './useChatSubscription';
-import { getChannelLastActiveTime } from '../_utils/getChannelLastActiveTime';
-import useChatNotice from './useChatNotice';
-import useGetParamsChannelId from '../../../_hook/useGetParamsChannelId';
 import useWorkspaceId from '@/hooks/useWorkspaceId';
 import { useWorkspaceUserId } from '@/hooks/useWorkspaceUserId';
+import useGetParamsChannelId from '@/hooks/useGetParamsChannelId';
+import { useGetChannelUsers, useGetChannelMessages } from '@/hooks/queries/useChannel';
+import { getChannelLastActiveTime } from '../_utils/getChannelLastActiveTime';
+import useChatSubscription from './useChatSubscription';
+import useChatNotice from './useChatNotice';
+import type { GetChannelMessageTypes } from '@/types/channel';
+
+export type UseChatMessageListReturnTypes = {
+  chat: GetChannelMessageTypes;
+  otherProfileProps?: {
+    src: string | null;
+    userName: string;
+    href: string;
+  };
+  noticeUrl: string;
+  isMe: boolean;
+};
 
 const useChatMessageList = () => {
   const channelId = useGetParamsChannelId();
@@ -15,11 +27,8 @@ const useChatMessageList = () => {
   const workspaceUserId = useWorkspaceUserId();
 
   const { noticeUrl, latestNotice } = useChatNotice();
-  const { data: usersInChannel = {}, isPending } = useGetUsersInChannel(Number(channelId));
-
-  const { data: chatMessages = [] } = useGetChatMessages({
-    channel_id: Number(channelId)
-  });
+  const { data: usersInChannel = {}, isPending } = useGetChannelUsers(Number(channelId));
+  const { data: chatMessages = [] } = useGetChannelMessages(Number(channelId));
 
   const { payloadMessages } = useChatSubscription({
     channelId,
@@ -38,8 +47,8 @@ const useChatMessageList = () => {
       const profileUrl = `/${workspaceId}/profile/${chat.workspace_user_id}`;
       const otherProfileProps = userInfo
         ? {
-            profileImage: userInfo.profile_image,
-            name: userInfo.name,
+            src: userInfo.profile_image,
+            userName: userInfo.name,
             href: profileUrl
           }
         : undefined;

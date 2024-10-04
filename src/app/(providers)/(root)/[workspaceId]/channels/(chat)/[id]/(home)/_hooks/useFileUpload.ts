@@ -1,28 +1,14 @@
 'use client';
 
 import { mbToBytes } from '@/utils/file';
-import { STORAGE_BUCKET_NAME } from '../../../_constants/constants';
-import { useMutationChatMessage, useMutationUploadFile } from '../../../_hook/useChatMutation';
+import { CHAT_FILE_TYPE, MAX_FILE_SIZE, STORAGE_BUCKET_NAME } from '../_constants';
 import { useSnackBar } from '@/providers/SnackBarContext';
 import { useParams } from 'next/navigation';
-import { ChatType } from '@/types/chat';
 import { useCallback } from 'react';
+import { useMutationCreateMessage, useMutationUploadFile } from '@/hooks/queries/useChat';
+import { OnUploadFileTypes } from '../_types';
 
-type StorageBucketNameKeys = keyof typeof STORAGE_BUCKET_NAME;
-const MAX_FILE_SIZE = 3;
-
-export type UploadFileProps = {
-  blob: Blob;
-  name: StorageBucketNameKeys;
-};
-
-const CHAT_TYPE: Record<StorageBucketNameKeys, ChatType['type']> = {
-  imageFile: 'image',
-  videoFile: 'video',
-  documentFile: 'document'
-};
-
-const useFileUpload = (onFinish: () => void) => {
+const useFileUpload = ({ onFinish }: { onFinish: () => void }) => {
   const { id } = useParams();
   const { openSnackBar } = useSnackBar();
 
@@ -30,11 +16,9 @@ const useFileUpload = (onFinish: () => void) => {
     onSuccess: onFinish
   });
 
-  const { mutate: mutateChatMessage } = useMutationChatMessage({
-    channel_id: Number(id)
-  });
+  const { mutate: mutateChatMessage } = useMutationCreateMessage(Number(id));
 
-  const handleFileUpload = useCallback(async ({ blob, name }: UploadFileProps) => {
+  const onFileUpload = useCallback(async ({ blob, name }: OnUploadFileTypes) => {
     if (blob.size >= mbToBytes(MAX_FILE_SIZE)) {
       openSnackBar({ message: `${MAX_FILE_SIZE}MB가 넘는 파일은 업로드할 수 없어요` });
       onFinish();
@@ -56,10 +40,10 @@ const useFileUpload = (onFinish: () => void) => {
       return;
     }
 
-    mutateChatMessage({ content: data, type: CHAT_TYPE[name] });
+    mutateChatMessage({ content: data, type: CHAT_FILE_TYPE[name] });
   }, []);
 
-  return { handleFileUpload };
+  return onFileUpload;
 };
 
 export default useFileUpload;
