@@ -1,5 +1,7 @@
 import type {
   ChannelInsertType,
+  GetChannelMessagesResponseTypes,
+  GetChannelMessageTypes,
   GetChannelsResponse,
   GetExistingChannelIdRequestProps,
   GetUsersInChannelResponse
@@ -75,8 +77,32 @@ class ChannelAPI {
     return data.data;
   };
 
-  updateChannelActiveAt = async (channelId: number): Promise<void> => {
+  updateChannelLastActive = async (channelId: number): Promise<void> => {
     const { data } = await this.axios.put(`/api/channel/${channelId}/update-active-at`);
+
+    return data.data;
+  };
+
+  getChannelMessages = async (channelId: number): Promise<GetChannelMessagesResponseTypes> => {
+    const { data } = await this.axios.get(`/api/chat/${channelId}`);
+
+    return data.data;
+  };
+
+  getChannelDocuments = async (channelId: number): Promise<GetChannelMessageTypes[]> => {
+    const { data } = await this.axios.get(`/api/channel/${channelId}/resource/documents`);
+
+    return data.data;
+  };
+
+  getChannelMedia = async (channelId: number): Promise<GetChannelMessageTypes[]> => {
+    const { data } = await this.axios.get(`/api/channel/${channelId}/resource/media`);
+
+    return data.data;
+  };
+
+  getChannelNotices = async (channelId: number): Promise<GetChannelMessageTypes[]> => {
+    const { data } = await this.axios.get(`/api/channel/${channelId}/resource/notices`);
 
     return data.data;
   };

@@ -59,3 +59,6 @@ export type GetUsersInChannelResponse = Record<WorkspaceUserType['id'], GetUsers
 export type GetExistingChannelIdRequestProps = {
   other_workspace_user_id: WorkspaceUserType['id'];
 };
+
+export type GetChannelMessageTypes = Pick<ChatType, 'type' | 'id' | 'created_at' | 'content' | 'workspace_user_id'>;
+export type GetChannelMessagesResponseTypes = GetChannelMessageTypes[];

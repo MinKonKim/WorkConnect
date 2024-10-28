@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import Typography from '@/components/Typography';
 import dayjs from 'dayjs';
-import { useGetChannelNotices } from '../../../_hook/useChatQuery';
+import { useGetChannelNotices } from '@/hooks/queries/useChannel';
 
 const NoticeListPage = () => {
   const { id } = useParams();

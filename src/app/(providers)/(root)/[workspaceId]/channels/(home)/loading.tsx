@@ -2,7 +2,7 @@ import { PageMain, PCHeader, PCWrapper } from '@/components/Layout/PageLayout';
 import { TopBar } from '@/components/Layout/TopBar';
 import Loading from '@/components/Loading';
 import { BottomBar } from '@/components/PageLayout';
-import { MessageChatButton, VideoChatButton } from '../_components/TopBarButtons';
+import { MessageChatButton, VideoChatButton } from '../_components/ChannelList/TopBarButtons';
 
 const HomeLoading = () => {
   return (

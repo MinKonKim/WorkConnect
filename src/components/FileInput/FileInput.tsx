@@ -1,4 +1,4 @@
-import { type FileButtonProps } from '@/app/(providers)/(root)/[workspaceId]/channels/(chat)/[id]/(home)/_components/MessageSender/FileButton';
+import { FileButtonProps } from '@/app/(providers)/(root)/[workspaceId]/channels/(chat)/[id]/(home)/_feature/MessageForm/FileButton';
 import { forwardRef } from 'react';
 
 type FileInputProps = {} & Pick<FileButtonProps, 'name' | 'accept' | 'handleChange'>;

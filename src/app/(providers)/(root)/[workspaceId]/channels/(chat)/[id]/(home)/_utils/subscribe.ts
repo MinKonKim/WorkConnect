@@ -1,5 +1,6 @@
 import { REALTIME_CHANNEL_NAME } from '@/constants/realtime';
 import createRealtimeChannel from '@/utils/createRealtimeChannel';
+import { UpdatePayloadTypes } from '../_hooks/useChatSubscriptionHandlers';
 
 type SubscribeToChatProps = {
   handleMessagesUpdates: (payload: any) => void;
@@ -43,7 +44,7 @@ export const handleSubscribeToChat = ({
  * @description
  * filter 옵션을 사용하면 DELETE 이벤트를 감지하지 못하는 이슈로 인해 filter를 주석처리함
  */
-export const handleSubscribeToNotice = ({ handler, id }: { handler: (payload: any) => void; id: number }) => {
+export const handleSubscribeToNotice = ({ handler }: { handler: (payload: UpdatePayloadTypes) => void }) => {
   return createRealtimeChannel({
     channelName: REALTIME_CHANNEL_NAME.CHAT_FOR_NOTICE,
     eventHandlers: [

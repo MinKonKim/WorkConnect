@@ -10,12 +10,12 @@ import FileInput from '@/components/FileInput';
 import AddChannelLayout from '../_components/AddChannelLayout';
 import ThumbnailInput from './_components/ThumbnailInput';
 import GroupNameInput from './_components/GroupNameInput';
-import { useMutationUploadThumbnail } from '../../_hooks/useChannelMutation';
 import VideoChatAvatar from '@/components/VideoChatAvatar';
 import Typography from '@/components/Typography';
 import Button from '@/components/Button';
 import useChatSearchUsersStore from '@/store/chatSearchUserStore';
 import { useWorkspaceUserId } from '@/hooks/useWorkspaceUserId';
+import { useMutationUpdateChannelThumbnail } from '@/hooks/queries/useChannel';
 
 const MAX_FILE_SIZE = 3;
 
@@ -30,7 +30,7 @@ const GroupSettingPage = () => {
   const { openSnackBar } = useSnackBar();
   const [thumbnail, setThumbnail] = useState<string>('');
 
-  const { mutateAsync: uploadThumbnail } = useMutationUploadThumbnail({
+  const { mutateAsync: uploadThumbnail } = useMutationUpdateChannelThumbnail({
     onError: () => {
       openSnackBar({ message: '파일을 업로드하지 못했어요' });
       return;

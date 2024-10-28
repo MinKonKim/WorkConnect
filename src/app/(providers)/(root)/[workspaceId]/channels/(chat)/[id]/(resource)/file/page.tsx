@@ -1,10 +1,10 @@
 'use client';
 
 import Typography from '@/components/Typography';
+import { useGetChannelDocuments } from '@/hooks/queries/useChannel';
 import FolderIcon from '@/icons/Folder.svg';
 import { handleDownloadFile } from '@/utils/file';
 import { useParams } from 'next/navigation';
-import { useGetChannelDocuments } from '../../../_hook/useChatQuery';
 
 const FileListPage = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const FileListPage = () => {
 
   return (
     <ul className="grid grid-cols-2 gap-x-2 gap-y-3 py-[22px] px-4">
-      {documents.map((file) => (
+      {documents.map((file: any) => (
         <li
           key={file.id}
           className="rounded-[6px] bg-bgBackground1 shadow-[0px_1px_8px_0px_rgba(0,0,0,0.15)] px-3 py-4 h-[134px]"

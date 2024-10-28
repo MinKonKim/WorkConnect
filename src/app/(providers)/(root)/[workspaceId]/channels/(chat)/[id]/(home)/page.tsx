@@ -1,20 +1,21 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { getChannelInfoOptions } from '../../_utils/getQueryOptions';
-import AsideSection from './_sections/AsideSection';
-import ChatSectionWrapper from './_sections/ChatSectionWrapper';
-import ChatSection from './_sections/ChatSection';
-
-const queryClient = new QueryClient();
+import { useGetPrefetchChannelInfo } from '@/hooks/queries/useChannel';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import ChatHeader from './_feature/ChatHeader';
+import ChatList from './_feature/ChatList';
+import MessageForm from './_feature/MessageForm';
+import Sidebar from './_feature/Sidebar';
+import ContextMenu from './_feature/ContextMenu';
 
 const ChatDetailPage = async ({ params: { id } }: { params: { id: string } }) => {
-  await queryClient.prefetchQuery(getChannelInfoOptions(Number(id)));
+  const queryClient = await useGetPrefetchChannelInfo(Number(id));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AsideSection />
-      <ChatSectionWrapper>
-        <ChatSection />
-      </ChatSectionWrapper>
+      <ChatHeader />
+      <ChatList />
+      <MessageForm />
+      <Sidebar />
+      <ContextMenu />
     </HydrationBoundary>
   );
 };
